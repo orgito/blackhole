@@ -110,8 +110,12 @@ Loop:
 
 // fastHTTPHandler is the request handler in fasthttp style, i.e. just plain function.
 func fastHTTPHandler(ctx *fasthttp.RequestCtx) {
+    ctx.Response.Header.Set("access-control-allow-origin", "*")
+    ctx.Response.Header.Set("access-control-allow-credentials", "true")
+    ctx.Response.Header.Set("access-control-allow-methods", "GET, POST, OPTIONS, PUT, DELETE")
+    ctx.Response.Header.Set("access-control-allow-headers", "Content-Type, Accept, X-Requested-With, X-HTTP-Method-Override, Authorization, Cache-Control, Pragma, Origin, Referer, User-Agent, X-Forwarded-For, X-Forwarded-Proto, X-Real-IP, X-Forwarded-Host, X-Forwarded-Port, X-Forwarded-Server, X-Original-URI, X-Original-URL, X-Original-Host, X-Original-Proto, X-Original-Method, X-Original-Path, X-Origina")
 
-	if recordReqChan != nil { // MARK-b5688e1019ad (see this code elsewhere)
+    if recordReqChan != nil { // MARK-b5688e1019ad (see this code elsewhere)
 		ar := request.CreateRequestFromFastHTTPCtx(ctx)
 		recordReqChan <- ar
 	}
